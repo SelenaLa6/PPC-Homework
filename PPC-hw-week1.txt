@@ -1,0 +1,44 @@
+--1.
+sqlite> .mode csv
+sqlite> .header on
+--2.
+<info("lastName" TEXT, "firstName" TEXT, "height" REAL, "weight" REAL);
+--3.
+sqlite> .import '...\Computer Science\Principles\namesWithHeightWeight.csv' bmi_info
+--4.
+sqlite> select * from bmi_info LIMIT 10;
+lastName,firstName,height,weight
+"LAST NAME","FIRST NAME",HEIGHT(in.),WEIGHT(lbs.)
+Abbott," Bradley J.",58.0,136.2
+Abbott," Brent U.",60.0,160.1
+Acevedo," Ayanna U.",71.0,143.2
+Acevedo," Blythe M.",65.0,148.7
+Acevedo," Dawn E.",71.0,124.0
+Acevedo," Glenna A.",68.0,165.2
+Acevedo," Hyacinth V.",59.0,160.4
+Acevedo," Keiko N.",64.0,172.1
+Acevedo," Xyla I.",66.0,121.1
+--5.
+sqlite> .save bmiInfo.db
+--6.
+sqlite> .exit
+
+--7. The .sqlite_history file contains all the commands and queries that were written in the console. However, it does not contain any outputs.
+
+--9.
+sqlite> .open bmiInfo.db
+--10.
+sqlite> .schema
+CREATE TABLE bmi_info("lastName" TEXT, "firstName" TEXT, "height" REAL, "weight" REAL);
+--11.
+sqlite> SELECT * FROM bmi_info LIMIT 10;
+LAST NAME|FIRST NAME|HEIGHT(in.)|WEIGHT(lbs.)
+Abbott| Bradley J.|58.0|136.2
+Abbott| Brent U.|60.0|160.1
+Acevedo| Ayanna U.|71.0|143.2
+Acevedo| Blythe M.|65.0|148.7
+Acevedo| Dawn E.|71.0|124.0
+Acevedo| Glenna A.|68.0|165.2
+Acevedo| Hyacinth V.|59.0|160.4
+Acevedo| Keiko N.|64.0|172.1
+Acevedo| Xyla I.|66.0|121.1

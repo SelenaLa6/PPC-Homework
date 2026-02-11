@@ -1,0 +1,130 @@
+MariaDB [(none)]> use la
+Database changed
+--1.
+MariaDB [la]> select count(*) as RowCount from vets;
++----------+
+| RowCount |
++----------+
+|    58253 |
++----------+
+1 row in set (0.035 sec)
+
+--2. This implies that there are 83 entries where the state has no leading/trailing whitespace.
+MariaDB [la]> select count(*) from vets where trim(state) = state;
++----------+
+| count(*) |
++----------+
+|       83 |
++----------+
+1 row in set (0.022 sec)
+
+--3. There were 83 blank rows.
+MariaDB [la]> delete from vets where fname = "";
+Query OK, 83 rows affected (0.068 sec)
+
+--4.
+MariaDB [la]> update vets set state = trim(state);
+Query OK, 58170 rows affected (0.352 sec)
+Rows matched: 58170  Changed: 58170  Warnings: 0
+
+--5.
+MariaDB [la]> update vets set fname = trim(fname);
+Query OK, 58170 rows affected (0.327 sec)
+Rows matched: 58170  Changed: 58170  Warnings: 0
+
+MariaDB [la]> update vets set lname = trim(lname);
+Query OK, 8 rows affected (0.054 sec)
+Rows matched: 58170  Changed: 8  Warnings: 0
+
+MariaDB [la]> update vets set town = trim(town);
+Query OK, 58170 rows affected (0.299 sec)
+Rows matched: 58170  Changed: 58170  Warnings: 0
+
+MariaDB [la]> select fname as "First Name", lname as "Last Name", town, state from vets where fname like 'GUADALUPE%';
++-------------------+-----------+-------------+-------+
+| First Name        | Last Name | town        | state |
++-------------------+-----------+-------------+-------+
+| GUADALUPE MASIAS  | ALVAREZ   | DONNA       | TX    |
+| GUADALUPE         | FLORES    | BEXAR       | TX    |
+| GUADALUPE JR      | GALINDO   | ROCKPORT    | TX    |
+--...table continues
+13 rows in set (0.053 sec)
+
+--6. There are 18 different towns in the data that start with "LOS".
+MariaDB [la]> select count(*) from vets where town like 'LOS%';
++----------+
+| count(*) |
++----------+
+|      586 |
++----------+
+1 row in set (0.020 sec)
+
+MariaDB [la]> select count(distinct town) from vets where town like "LOS%";
++----------------------+
+| count(distinct town) |
++----------------------+
+|                   18 |
++----------------------+
+1 row in set (0.053 sec)
+
+--7. There are 538 veterans from Los Angeles and 48 veterans from other towns that also start with "LOS".
+MariaDB [la]> select count(*) from vets where town = "LOS ANGELES";
++----------+
+| count(*) |
++----------+
+|      538 |
++----------+
+1 row in set (0.020 sec)
+
+MariaDB [la]> select count(*) from vets where town like "LOS%" and town not like "LOS ANGELES";
++----------+
+| count(*) |
++----------+
+|       48 |
++----------+
+1 row in set (0.040 sec)
+
+--8.
+MariaDB [la]> select state, count(*) as Count from vets where town like "LOS%" and town not like "LOS ANGELES" group by state;
++-------+-------+
+| state | Count |
++-------+-------+
+| CA    |    35 |
+| IA    |     2 |
+| KY    |     1 |
+| NM    |     6 |
+| TX    |     3 |
+| WV    |     1 |
++-------+-------+
+6 rows in set (0.042 sec)
+
+--9.
+MariaDB [la]> select * from vets where state = "GU" order by lname asc;
++-------------+---------------------+---------------------------+-------+
+| lname       | fname               | town                      | state |
++-------------+---------------------+---------------------------+-------+
+| AGUON       | JOSE QUINATA        | UMATAC                    | GU    |
+| ASANOMA     | FRANCISCO M         | INARAJAN                  | GU    |
+| BENAVENTE   | DAVID GUERRERO      | DEDEDO                    | GU    |
+--...table continues
+70 rows in set (0.021 sec)
+
+--10. When the data was loaded in, the quotation marks were included. Also, the CSV file's header was entered in as data.
+create table States(State varchar(30), Abbreviation varchar(10) primary key);
+Query OK, 0 rows affected (0.034 sec)
+
+MariaDB [la]> load data local infile 'C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/states.csv' into table States fields terminated by ',' lines terminated by '\n';
+Query OK, 52 rows affected, 1 warning (0.050 sec)
+Records: 52  Deleted: 0  Skipped: 0  Warnings: 1
+
+MariaDB [la]> select * from States limit 5;
++------------+--------------+
+| State      | Abbreviation |
++------------+--------------+
+| "State"    | "Abbreviat   |
+| "Alaska"   | "AK"         |
+| "Alabama"  | "AL"         |
+| "Arkansas" | "AR"         |
+| "Arizona"  | "AZ"         |
++------------+--------------+
+5 rows in set (0.001 sec)

@@ -1,0 +1,326 @@
+--1.
+MariaDB [(none)]> use la
+Database changed
+MariaDB [la]> show tables;
++--------------+
+| Tables_in_la |
++--------------+
+| states       |
+| vets         |
++--------------+
+2 rows in set (0.002 sec)
+
+MariaDB [la]> truncate states;
+Query OK, 0 rows affected (0.036 sec)
+
+MariaDB [la]> select * from states;
+Empty set (0.003 sec)
+
+MariaDB [la]> load data local infile 'C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/States_Territories.csv' into table states fields terminated by ',' enclosed by '"' lines terminated by '\n';
+Query OK, 58 rows affected (0.022 sec)
+Records: 58  Deleted: 0  Skipped: 0  Warnings: 0
+
+MariaDB [la]> select * from states limit 5;
++------------------+--------------+
+| State            | Abbreviation |
++------------------+--------------+
+| STATE(TERRITORY) |              |
+| Alaska           | AK           |
+| Alabama          | AL           |
+| Arkansas         | AR           |
+| American Samoa   | AS           |
++------------------+--------------+
+5 rows in set (0.001 sec)
+
+MariaDB [la]> delete from states where State = "STATE(TERRITORY)";
+Query OK, 1 row affected (0.024 sec)
+
+MariaDB [la]> select * from states limit 5;
++----------------+--------------+
+| State          | Abbreviation |
++----------------+--------------+
+| Alaska         | AK           |
+| Alabama        | AL           |
+| Arkansas       | AR           |
+| American Samoa | AS           |
+| Arizona        | AZ           |
++----------------+--------------+
+5 rows in set (0.001 sec)
+
+--2.
+MariaDB [la]> select state, count(*) as cnt from vets group by state order by state desc;
++-------+------+
+| state | cnt  |
++-------+------+
+| ZZ    |    3 |
+| XS    |    1 |
+| XP    |   32 |
+| XN    |    3 |
+| XM    |    5 |
+| XJ    |    4 |
+| XI    |    2 |
+| XG    |    7 |
+| XF    |    2 |
+| XE    |    3 |
+| XC    |   58 |
+| XB    |    3 |
+| XA    |    1 |
+| WY    |  119 |
+| WV    |  731 |
+| WI    | 1160 |
+| WA    | 1050 |
+| VT    |  100 |
+| VQ    |   15 |
+| VA    | 1304 |
+| UT    |  365 |
+| TX    | 3414 |
+| TN    | 1291 |
+| SO    |    4 |
+| SD    |  195 |
+| SC    |  895 |
+| RI    |  207 |
+| PR    |  345 |
+| PA    | 3141 |
+| OR    |  709 |
+| OK    |  988 |
+| OH    | 3092 |
+| NY    | 4120 |
+| NV    |  151 |
+| NM    |  399 |
+| NJ    | 1484 |
+| NH    |  227 |
+| NE    |  395 |
+| ND    |  198 |
+| NC    | 1609 |
+| MT    |  268 |
+| MS    |  637 |
+| MO    | 1411 |
+| MN    | 1072 |
+| MI    | 2654 |
+| ME    |  342 |
+| MD    | 1014 |
+| MA    | 1322 |
+| LA    |  882 |
+| KY    | 1055 |
+| KS    |  626 |
+| IN    | 1531 |
+| IL    | 2930 |
+| ID    |  217 |
+| IA    |  852 |
+| HI    |  277 |
+| GU    |   70 |
+| GA    | 1583 |
+| FL    | 1950 |
+| DE    |  122 |
+| DC    |  241 |
+| CZ    |    2 |
+| CT    |  612 |
+| CO    |  619 |
+| CA    | 5575 |
+| AZ    |  622 |
+| AR    |  588 |
+| AL    | 1207 |
+| AK    |   57 |
++-------+------+
+69 rows in set (0.053 sec)
+
+--3.
+MariaDB [la]> select distinct state from vets where state not in (select Abbreviation from states);
++-------+
+| state |
++-------+
+| XP    |
+| XJ    |
+| VQ    |
+| XS    |
+| XC    |
+| XB    |
+| ZZ    |
+| XI    |
+| XN    |
+| XE    |
+| XG    |
+| XM    |
+| XF    |
+| SO    |
+| XA    |
+| CZ    |
++-------+
+16 rows in set (0.043 sec)
+
+--4.
+MariaDB [la]> source C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/StudentExample.sql
+--------------
+create database if not exists mynewpaltz
+--------------
+
+ERROR 1044 (42000) at line 1 in file: 'C:\Users\flitz\OneDrive - State University of New York at New Paltz\Schoolwork\Computer Science\PPC\StudentExample.sql': Access denied for user 'la'@'localhost' to database 'mynewpaltz'
+ERROR 1044 (42000) at line 2 in file: 'C:\Users\flitz\OneDrive - State University of New York at New Paltz\Schoolwork\Computer Science\PPC\StudentExample.sql': Access denied for user 'la'@'localhost' to database 'mynewpaltz'
+Query OK, 0 rows affected (0.013 sec)
+
+Query OK, 0 rows affected (0.025 sec)
+
+Query OK, 0 rows affected (0.017 sec)
+
+Query OK, 1 row affected (0.006 sec)
+
+Query OK, 1 row affected (0.003 sec)
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.004 sec)
+
+Query OK, 1 row affected (0.003 sec)
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 0 rows affected (0.035 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.002 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [la]> show tables;
++-----------------+
+| Tables_in_la    |
++-----------------+
+| coursetable     |
+| enrollmenttable |
+| states          |
+| studenttable    |
+| vets            |
++-----------------+
+5 rows in set (0.002 sec)
+
+MariaDB [la]> source C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/EmployeesDatabase.sql
+ERROR 1044 (42000) at line 3 in file: 'C:\Users\flitz\OneDrive - State University of New York at New Paltz\Schoolwork\Computer Science\PPC\EmployeesDatabase.sql': Access denied for user 'la'@'localhost' to database 'employee'
+Query OK, 0 rows affected (0.038 sec)
+
+Query OK, 0 rows affected (0.017 sec)
+
+Query OK, 7 rows affected (0.004 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+Query OK, 7 rows affected (0.004 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+Query OK, 19 rows affected (0.001 sec)
+Records: 19  Duplicates: 0  Warnings: 0
+
+MariaDB [la]> show tables;
++-----------------+
+| Tables_in_la    |
++-----------------+
+| coursetable     |
+| departments     |
+| employees       |
+| enrollmenttable |
+| states          |
+| studenttable    |
+| vets            |
++-----------------+
+7 rows in set (0.001 sec)
+
+--was on user without sufficient perms
+--going to switch to root, cleared db la of all added tables
+
+source C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/StudentExample.sql;
+--... bunch of SQL queries, no errors
+MariaDB [none] show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| la                 |
+| mynewpaltz         |
+| mysql              |
+| performance_schema |
+| sys                |
+| test               |
++--------------------+
+7 rows in set (0.002 sec)
+
+MariaDB [none]> use mynewpaltz;
+Database changed
+MariaDB [mynewpaltz]> show tables;
++----------------------+
+| Tables_in_mynewpaltz |
++----------------------+
+| coursetable          |
+| studenttable         |
++----------------------+
+
+source C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/EmployeesDatabase.sql;
+--.. bunch of SQL queries, one error: database employee does not exist
+MariaDB [mynewpaltz]> show tables;
++----------------------+
+| Tables_in_mynewpaltz |
++----------------------+
+| coursetable          |
+| departments          |
+| employees            |
+| enrollmenttable      |
+| studenttable         |
++----------------------+
+5 rows in set (0.002 sec)

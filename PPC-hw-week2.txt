@@ -1,0 +1,53 @@
+--2.
+MariaDB [(none)]> create database la;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [(none)]> use la
+Database changed
+--3.
+MariaDB [la]> create table vets(lname varchar(100), fname varchar(100), town varchar(100), state varchar(20))
+    -> ;
+Query OK, 0 rows affected (0.039 sec)
+
+--4.
+MariaDB [la]> load data local infile 'C:/Users/flitz/OneDrive - State University of New York at New Paltz/Schoolwork/Computer Science/PPC/VV.csv' into table vets fields terminated by ',' lines terminated by '\n';
+Query OK, 58253 rows affected (0.291 sec)
+Records: 58253  Deleted: 0  Skipped: 0  Warnings: 0
+
+--5a. 58253 veterans are in the file.
+MariaDB [la]> select count(*) from vets
+    -> ;
++----------+
+| count(*) |
++----------+
+|    58253 |
++----------+
+1 row in set (0.035 sec)
+
+--5b. 133 veterans are from Dayton.
+MariaDB [la]> select count(*) from vets where town = 'DAYTON';
++----------+
+| count(*) |
++----------+
+|        0 |
++----------+
+1 row in set (0.041 sec)
+
+MariaDB [la]> select count(*) from vets where trim(town) = 'DAYTON';
++----------+
+| count(*) |
++----------+
+|      133 |
++----------+
+1 row in set (0.044 sec)
+
+--5c. 136 veterans have the last name Harris.
+MariaDB [la]> select * from vets where trim(lname) = 'HARRIS';
++--------+----------------------+-----------------+-------+
+| lname  | fname                | town            | state |
++--------+----------------------+-----------------+-------+
+| HARRIS |  ABRAHAM             |  YORK           |  SC   |
+| HARRIS |  ALLAN LYNN          |  ETIWANDA       |  CA   |
+| HARRIS |  BENJAMIN            |  HILLSBORO      |  AL   |
+--...table continues
+136 rows in set (0.054 sec)
