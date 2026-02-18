@@ -1,0 +1,101 @@
+-- 1.
+MariaDB [employee]> SELECT e.name AS Employee, d.department_name AS Department
+    -> FROM employees e
+    -> INNER JOIN departments d
+    -> ON e.department_id = d.id;
++----------+------------------+
+| Employee | Department       |
++----------+------------------+
+| Alice    | Engineering      |
+| Bob      | Engineering      |
+| Charlie  | HR               |
+-- ...table continues
+26 rows in set (0.108 sec)
+
+-- 2.
+MariaDB [employee]> SELECT e.name AS Employee,
+    -> d.department_name AS Department
+    -> FROM employees e
+    -> LEFT JOIN departments d
+    -> ON e.department_id = d.id;
++----------+------------------+
+| Employee | Department       |
++----------+------------------+
+| Alice    | Engineering      |
+| Bob      | Engineering      |
+| Charlie  | HR               |
+-- ...table continues
+26 rows in set (0.023 sec)
+
+-- 3.
+MariaDB [employee]> SELECT d.department_name AS Department,
+    -> e.name AS Employee
+    -> FROM departments d
+    -> LEFT JOIN employees e
+    -> ON d.id = e.department_id;
++------------------+----------+
+| Department       | Employee |
++------------------+----------+
+| HR               | Charlie  |
+| HR               | Frank    |
+| HR               | Paul     |
+-- ...table continues
+26 rows in set (0.021 sec)
+
+-- 4.
+MariaDB [employee]> SELECT e.name AS Employee,
+    -> m.name AS Manager
+    -> FROM employees e
+    -> INNER JOIN employees m
+    -> ON e.manager_id = m.id;
++----------+---------+
+| Employee | Manager |
++----------+---------+
+| Alice    | Jack    |
+| Bob      | Jack    |
+| David    | Emma    |
+-- ...table continues
+19 rows in set (0.002 sec)
+
+-- 5.
+MariaDB [employee]> SELECT e.*, d.department_name
+    -> FROM employees e
+    -> LEFT JOIN departments d
+    -> ON e.department_id = d.id;
++----+---------+----------+---------------+------------+------------------+
+| id | name    | salary   | department_id | manager_id | department_name  |
++----+---------+----------+---------------+------------+------------------+
+|  1 | Alice   | 60000.00 |             2 |         10 | Engineering      |
+|  2 | Bob     | 55000.00 |             2 |         10 | Engineering      |
+|  3 | Charlie | 50000.00 |             1 |       NULL | HR               |
+-- ...table continues
+26 rows in set (0.001 sec)
+
+-- 6.
+MariaDB [employee]> SELECT e.name AS Name,
+    -> e.salary AS Salary
+    -> FROM employees e
+    -> WHERE e.salary IN
+    -> (SELECT MAX(salary) from employees);
++------+----------+
+| Name | Salary   |
++------+----------+
+| Emma | 90000.00 |
++------+----------+
+1 row in set (0.026 sec)
+
+--7.
+MariaDB [employee]> SELECT e.name AS Name,
+    -> d.department_name AS Department,
+    -> e.salary AS Salary
+    -> FROM employees e
+    -> INNER JOIN departments d
+    -> ON e.department_id = d.id
+    -> WHERE e.salary IN (SELECT MAX(salary) FROM employees);
++------+------------+----------+
+| Name | Department | Salary   |
++------+------------+----------+
+| Emma | Finance    | 90000.00 |
++------+------------+----------+
+1 row in set (0.002 sec)
+
