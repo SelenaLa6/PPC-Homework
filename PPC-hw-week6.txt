@@ -1,0 +1,121 @@
+-- List employees and their managers
+MariaDB [employee]> SELECT e.name AS Employee,
+    -> m.name AS Manager
+    -> FROM employees e
+    -> INNER JOIN employees m
+    -> ON e.manager_id = m.id;
++-----------+----------+
+| Employee  | Manager  |
++-----------+----------+
+| Charlotte | Emma     |
+| Ella      | William  |
+| Scarlett  | Olivia   |
+-- ...table continues
+174 rows in set (0.003 sec)
+
+-- List departments and their managers
+MariaDB [employee]> SELECT d.department_name AS Department,
+    -> m.name AS Manager
+    -> FROM departments d
+    -> LEFT JOIN employees m
+    -> ON d.manager_id = m.id;
++------------------+----------+
+| Department       | Manager  |
++------------------+----------+
+| Assembly         | James    |
+| Quality Control  | Maria    |
+| Machining        | Robert   |
+-- ...table continues
+12 rows in set (0.002 sec)
+
+-- List the department each person works in
+MariaDB [employee]> SELECT e.name AS Employee,
+    -> d.department_name AS Department
+    -> FROM employees e
+    -> LEFT JOIN departments d
+    -> ON e.department_id = d.id;
++-----------+------------------+
+| Employee  | Department       |
++-----------+------------------+
+| James     | Assembly         |
+| Maria     | Quality Control  |
+| Robert    | Machining        |
+-- ...table continues
+188 rows in set (0.002 sec)
+
+-- Find employees who have no manager
+MariaDB [employee]> SELECT e.name AS "Employees with no manager"
+    -> FROM employees e
+    -> WHERE e.manager_id <=> NULL;
++---------------------------+
+| Employees with no manager |
++---------------------------+
+| James                     |
+| Maria                     |
+| Robert                    |
+-- ...table continues
+14 rows in set (0.004 sec)
+
+-- Find employees who have no departments
+MariaDB [employee]> SELECT e.name AS "Employees with no department"
+    -> FROM employees e
+    -> WHERE e.department_id <=> NULL;
++------------------------------+
+| Employees with no department |
++------------------------------+
+| Mia                          |
+| Ava                          |
+| Oliver                       |
+-- ...table continues
+12 rows in set (0.002 sec)
+
+-- Show a count of employees in each department, including those who have no departments
+MariaDB [employee]> SELECT d.department_name AS Department,
+    -> COUNT(*) AS "Employee Count"
+    -> FROM employees e
+    -> LEFT JOIN departments d
+    -> ON e.department_id <=> d.id
+    -> GROUP BY Department;
++------------------+----------------+
+| Department       | Employee Count |
++------------------+----------------+
+| NULL             |             12 |
+| Assembly         |             16 |
+| Health & Safety  |             24 |
+| Inventory        |             16 |
+-- ...table continues
+13 rows in set (0.002 sec)
+
+-- List name, salary, and department name of managers (those who have a department but no manager)
+MariaDB [employee]> SELECT m.name AS Manager,
+    -> m.salary AS Salary,
+    -> d.department_name AS Department
+    -> FROM employees m
+    -> INNER JOIN departments d
+    -> ON m.department_id = d.id
+    -> WHERE m.manager_id IS NULL;
++----------+--------+------------------+
+| Manager  | Salary | Department       |
++----------+--------+------------------+
+| James    |  95000 | Assembly         |
+| Maria    |  92000 | Quality Control  |
+| Robert   |  88000 | Machining        |
+-- ...table continues
+12 rows in set (0.001 sec)
+
+-- List employees whose salaries are higher than their manager's salaries
+MariaDB [employee]> SELECT e.name AS Employee,
+    -> e.salary AS `Employee's Salary`,
+    -> m.name AS Manager,
+    -> m.salary AS `Manager's Salary`
+    -> FROM employees e
+    -> INNER JOIN employees m
+    -> ON e.manager_id = m.id
+    -> WHERE e.salary > m.salary;
++----------+-------------------+---------+------------------+
+| Employee | Employee's Salary | Manager | Manager's Salary |
++----------+-------------------+---------+------------------+
+| Ella     |             97000 | James   |            95000 |
+| Scarlett |             77000 | William |            75000 |
++----------+-------------------+---------+------------------+
+2 rows in set (0.001 sec)
