@@ -1,0 +1,60 @@
+-- 1. List # of regions in each continent.
+MariaDB [nation]> SELECT c.name AS 'Continent',
+    -> COUNT(*) AS '# of Regions'
+    -> FROM continents c
+    -> LEFT JOIN regions r
+    -> ON c.continent_id = r.continent_id
+    -> GROUP BY c.name;
++---------------+--------------+
+| Continent     | # of Regions |
++---------------+--------------+
+| Africa        |            5 |
+| Antarctica    |            1 |
+| Asia          |            4 |
+| Europe        |            6 |
+| North America |            3 |
+| Oceania       |            5 |
+| South America |            1 |
++---------------+--------------+
+7 rows in set (0.001 sec)
+
+-- 2. List continents and the regions each continent contains.
+MariaDB [nation]> SELECT c.name AS 'Continent',
+    -> r.name AS 'Region'
+    -> FROM continents c
+    -> LEFT JOIN regions r
+    -> ON c.continent_id = r.continent_id;
++---------------+---------------------------+
+| Continent     | Region                    |
++---------------+---------------------------+
+| North America | Caribbean                 |
+| North America | Central America           |
+| North America | North America             |
+| Asia          | Southern and Central Asia |
+-- ...table continues
+25 rows in set (0.001 sec)
+
+-- 3. Are there regions that can span more than one continent?
+-- No because each region can have one continent_id in the database.
+
+-- 4.
+MariaDB [nation]> CREATE VIEW CountriesAndContinents AS (
+    -> SELECT cn.name AS 'Country Name',
+    -> ct.name AS 'Continent Name'
+    -> FROM countries cn
+    -> JOIN regions r
+    -> ON cn.region_id = r.region_id
+    -> JOIN continents ct
+    -> ON r.continent_id = ct.continent_id
+    -> ORDER BY cn.name ASC);
+Query OK, 0 rows affected (0.024 sec)
+
+MariaDB [nation]> SELECT * FROM CountriesAndContinents;
++----------------------------------------------+----------------+
+| Country Name                                 | Continent Name |
++----------------------------------------------+----------------+
+| Afghanistan                                  | Asia           |
+| Albania                                      | Europe         |
+| Algeria                                      | Africa         |
+-- ...table continues
+239 rows in set (0.021 sec)

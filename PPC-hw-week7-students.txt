@@ -1,0 +1,234 @@
+-- 1.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> s.ssn AS SSN,
+    -> COUNT(e.grade) AS Courses
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> GROUP BY s.ssn
+    -> HAVING Courses = 5;
++------------+-----------+-----------+---------+
+| First Name | Last Name | SSN       | Courses |
++------------+-----------+-----------+---------+
+| Kevin      | Green     | 100000041 |       5 |
+| Michelle   | Adams     | 100000042 |       5 |
+| Brian      | Nelson    | 100000043 |       5 |
+-- ...table continues
+17 rows in set (0.001 sec)
+
+-- 2.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> s.ssn AS SSN,
+    -> COUNT(e.grade) AS Courses
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> GROUP BY s.ssn
+    -> HAVING Courses = 4;
++------------+-----------+-----------+---------+
+| First Name | Last Name | SSN       | Courses |
++------------+-----------+-----------+---------+
+| Amanda     | Rivera    | 100000046 |       4 |
+| Jacob      | Cruz      | 100000057 |       4 |
++------------+-----------+-----------+---------+
+2 rows in set (0.001 sec)
+
+-- 3.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> s.ssn AS SSN,
+    -> COUNT(e.grade) AS Courses
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> GROUP BY s.ssn
+    -> HAVING Courses = 3;
++-------------+-----------+-----------+---------+
+| First Name  | Last Name | SSN       | Courses |
++-------------+-----------+-----------+---------+
+| James       | Smith     | 100000001 |       3 |
+| Mary        | Johnson   | 100000002 |       3 |
+| Robert      | Williams  | 100000003 |       3 |
+-- ...table continues
+20 rows in set (0.001 sec)
+
+-- 4.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> s.ssn AS SSN,
+    -> COUNT(e.grade) AS Courses
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> GROUP BY s.ssn
+    -> HAVING Courses = 2;
++------------+------------+-----------+---------+
+| First Name | Last Name  | SSN       | Courses |
++------------+------------+-----------+---------+
+| Nicholas   | Stewart    | 100000061 |       2 |
+| Kathleen   | Morris     | 100000062 |       2 |
+| Eric       | Morales    | 100000063 |       2 |
+-- ...table continues
+39 rows in set (0.001 sec)
+
+-- 5.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> s.ssn AS SSN,
+    -> COUNT(e.grade) AS Courses
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> GROUP BY s.ssn
+    -> HAVING Courses = 1;
++------------+-----------+-----------+---------+
+| First Name | Last Name | SSN       | Courses |
++------------+-----------+-----------+---------+
+| Charles    | Lee       | 100000021 |       1 |
+| Nancy      | Perez     | 100000022 |       1 |
+| Matthew    | Thompson  | 100000023 |       1 |
+-- ...table continues
+20 rows in set (0.001 sec)
+
+-- 6.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> s.ssn AS SSN,
+    -> COUNT(e.grade) AS Courses
+    -> FROM studenttable s
+    -> LEFT JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> GROUP BY s.ssn
+    -> HAVING Courses = 0;
++------------+-----------+-----------+---------+
+| First Name | Last Name | SSN       | Courses |
++------------+-----------+-----------+---------+
+| Jason      | Gomez     | 100000051 |       0 |
+| Jack       | Myers     | 100000091 |       0 |
++------------+-----------+-----------+---------+
+2 rows in set (0.002 sec)
+
+-- 7.
+MariaDB [mynewpaltz]> SELECT c.subjectId AS 'Subject ID',
+    -> COUNT(*) AS 'Courses'
+    -> FROM coursetable c
+    -> WHERE c.numOfCredits = 4
+    -> GROUP BY c.subjectId;
++------------+---------+
+| Subject ID | Courses |
++------------+---------+
+| CS         |       2 |
+| ENGR       |       2 |
+| MATH       |       2 |
++------------+---------+
+3 rows in set (0.001 sec)
+
+-- 8.
+MariaDB [mynewpaltz]> SELECT c.subjectId AS 'Subject ID',
+    -> COUNT(*) AS 'Courses'
+    -> FROM coursetable c
+    -> WHERE c.numOfCredits = 3
+    -> GROUP BY c.subjectId;
++------------+---------+
+| Subject ID | Courses |
++------------+---------+
+| CS         |       3 |
+| ENGL       |       5 |
+| ENGR       |       2 |
+| MATH       |       3 |
++------------+---------+
+4 rows in set (0.001 sec)
+
+-- 9.
+MariaDB [mynewpaltz]> SELECT c.subjectId AS 'Subject ID',
+    -> COUNT(*) AS 'Courses'
+    -> FROM coursetable c
+    -> WHERE c.numOfCredits = 2
+    -> GROUP BY c.subjectId;
++------------+---------+
+| Subject ID | Courses |
++------------+---------+
+| ENGR       |       1 |
++------------+---------+
+1 row in set (0.001 sec)
+
+-- 10.
+MariaDB [mynewpaltz]> SELECT * FROM coursetable WHERE numOfCredits = 5;
+Empty set (0.001 sec)
+
+MariaDB [mynewpaltz]> SELECT * FROM coursetable WHERE numOfCredits = 1;
+Empty set (0.001 sec)
+-- No, there are no 5 credit or 1 credit courses.
+
+-- 11.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> e.courseId AS 'Course ID',
+    -> e.grade AS 'Grade'
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn;
++-------------+------------+-----------+-------+
+| First Name  | Last Name  | Course ID | Grade |
++-------------+------------+-----------+-------+
+| James       | Smith      |         1 | A     |
+| James       | Smith      |         6 | B     |
+| James       | Smith      |        11 | A     |
+| Mary        | Johnson    |         2 | B     |
+-- ...table continues
+251 rows in set (0.001 sec)
+
+-- 12.
+MariaDB [mynewpaltz]> SELECT COUNT(*) AS '# Enrolled',
+    -> c.courseNumber AS 'Course Number',
+    -> c.subjectId AS 'Subject ID'
+    -> FROM enrollmenttable e
+    -> JOIN coursetable c
+    -> ON e.courseId = c.courseId
+    -> WHERE e.courseId = 10
+    -> GROUP BY e.courseId;
++------------+---------------+------------+
+| # Enrolled | Course Number | Subject ID |
++------------+---------------+------------+
+|         13 |           450 | CS         |
++------------+---------------+------------+
+1 row in set (0.002 sec)
+
+-- 13.
+MariaDB [mynewpaltz]> SELECT c.courseId AS 'Course ID',
+    -> c.title AS 'Title',
+    -> COUNT(e.grade) AS '# Enrolled'
+    -> FROM coursetable c
+    -> LEFT JOIN enrollmenttable e
+    -> ON c.courseId = e.courseId
+    -> GROUP BY c.courseId;
++-----------+-----------------------------+------------+
+| Course ID | Title                       | # Enrolled |
++-----------+-----------------------------+------------+
+|         1 | Calculus I                  |         13 |
+|         2 | Calculus II                 |         13 |
+|         3 | Linear Algebra              |         12 |
+-- ...table continues
+20 rows in set (0.001 sec)
+
+-- 14.
+MariaDB [mynewpaltz]> SELECT s.firstName AS 'First Name',
+    -> s.lastName AS 'Last Name',
+    -> SUM(c.numOfCredits) AS 'Total Credits'
+    -> FROM studenttable s
+    -> JOIN enrollmenttable e
+    -> ON s.ssn = e.ssn
+    -> JOIN coursetable c
+    -> ON e.courseId = c.courseId
+    -> GROUP BY s.ssn;
++-------------+------------+---------------+
+| First Name  | Last Name  | Total Credits |
++-------------+------------+---------------+
+| James       | Smith      |            11 |
+| Mary        | Johnson    |            10 |
+| Robert      | Williams   |            10 |
+-- ...table continues
+98 rows in set (0.002 sec)
+
