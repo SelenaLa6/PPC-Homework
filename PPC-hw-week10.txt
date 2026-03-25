@@ -1,0 +1,54 @@
+fruitSet = [banana, date, cherry, apple, honeydew, berry, kiwi, lemon, fig, grape, elderberry]
+
+Grouped by first char:
+a = [apple, apple]
+b = [banana, berry, banana]
+c = [cherry, cherry, cherry]
+d = [date]
+e = [elderberry]
+f = [fig]
+g = [grape]
+h = [honeydew]
+k = [kiwi]
+l = [lemon]
+
+Grouped by string length:
+3 = [fig]
+4 = [kiwi, date]
+5 = [berry, apple, lemon, apple, grape]
+6 = [cherry, banana, cherry, cherry, banana]
+8 = [honeydew]
+10 = [elderberry]
+
+erryList = [cherry, berry, cherry, cherry, elderberry]
+
+True = [cherry, berry, cherry, cherry, elderberry]
+False = [banana, apple, kiwi, fig, date, lemon, honeydew, apple, banana, grape]
+
+less5List = [berry, apple, kiwi, fig, date, lemon, apple, grape]
+
+Total characters = 84
+
+
+True = [87, 100, 78, 92, 56, 99, 82, 1012, 78, 90, 56, 78, 100, 67, 89]
+False = [23, 45, 6, 44, 13, 34, 19, 45, 23, 3, 43, 21, 34, 10]
+
+0 = [56, 56, 21]
+1 = [78, 92, 99, 78, 78, 43]
+2 = [23, 100, 44, 23, 100]
+3 = [87, 45, 45, 3, 10]
+4 = [1012, 67]
+5 = [82, 19, 89]
+6 = [6, 13, 34, 90, 34]
+
+Sum = 2527
+
+uniqueVal = [87, 23, 45, 100, 6, 78, 92, 44, 13, 56, 34, 99, 82, 19, 1012, 90, 3, 43, 67, 89, 21, 10]
+
+cubes = [658503, 12167, 91125, 1000000, 216, 474552, 778688, 85184, 2197, 175616, 39304, 970299, 551368, 6859, 1036433728, 474552, 91125, 729000, 12167, 175616, 474552, 1000000, 27, 79507, 300763, 704969, 9261, 39304, 1000]
+
+cubeSum = 1045371649
+
+incr5 = [92, 28, 50, 105, 11, 83, 97, 49, 18, 61, 39, 104, 87, 24, 1017, 83, 50, 95, 28, 61, 83, 105, 8, 48, 72, 94, 26, 39, 15]
+
+evenCubes = [1000000, 216, 474552, 778688, 85184, 175616, 39304, 551368, 1036433728, 474552, 729000, 175616, 474552, 1000000, 39304, 1000]
