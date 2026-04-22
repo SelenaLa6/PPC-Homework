@@ -1,0 +1,45 @@
+Threaded: uses ssThread extends Thread
+
+n = 100
+Nonthreaded = 2600      > 0.0026
+Threaded    = 1034800   > 1.0348
+
+n = 1,000
+Nonthreaded = 13400     > 0.0134
+Threaded    = 1181300   > 1.1813
+
+n = 10,000
+Nonthreaded = 147900    > 0.1479
+Threaded    = 1227100   > 1.2271
+
+n = 100,000
+Nonthreaded = 844600    > 0.8446
+Threaded    = 3241600   > 3.2416
+
+n = 1,000,000
+Nonthreaded = 2820500   > 2.8205
+Threaded    = 5960500   > 5.9605
+
+n = 10,000,000
+Nonthreaded = 8429700   > 8.4297
+Threaded    = 10414300  > 10.4143
+
+n = 100,000,000
+Nonthreaded = 31770700  > 31.7707
+Threaded    = 26117300  > 26.1173
+
+The nonthreaded method is better for small n.
+In this case, it was faster for n < 100,000,000.
+However, the threaded method is better for big n.
+In this case, it was faster for n >= 100,000,000.
+
+Graphing the data points above and a power regression
+curve onto the graph shows that the nonthreaded method
+will require increasingly more time than the threaded method.
+
+The nonthreaded method is probably better for small n because
+no time is spent on creating & managing the threads.
+
+The threaded method is probably better for larger n because
+it allows the computer to split its resources.
+
